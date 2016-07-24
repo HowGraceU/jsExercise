@@ -1,0 +1,28 @@
+{
+  "book":{
+    "0":{
+      "name":"西游记",
+      "author":"吴承恩",
+      "timeboth":"627year",
+      "price":"￥29.98"
+    },
+    "1":{
+      "name":"水浒传",
+      "author":"吴承恩",
+      "timeboth":"1119year",
+      "price":"￥19.98"
+    },
+    "2":{
+      "name":"三国演义",
+      "author":"罗贯中",
+      "timeboth":"198year",
+      "price":"￥9.98"
+    },
+    "3":{
+      "name":"红楼梦",
+      "author":"曹雪芹",
+      "timeboth":"1791year",
+      "price":"￥39.98"
+    }
+  }
+}

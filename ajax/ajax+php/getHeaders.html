@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ajax读取响应头部</title>
+  <script type="text/javascript">
+    window.onload = function() {
+      window.doHeaderRequest = function(requsetType,url){
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open('HEAD',url,true);
+        xmlHttp.send();
+        xmlHttp.onreadystatechange=function(){
+          stateChange(xmlHttp,requsetType);
+        };
+      }
+      function stateChange(xmlHttp,requsetType) {
+        if(xmlHttp.readyState == 4){
+          if(requsetType == 'allResponsetHeaders'){
+            alert(xmlHttp.getAllResponseHeaders());
+          }
+          if(requsetType == 'lastModified'){
+            alert("last Modified:"+xmlHttp.getResponseHeader("last-Modified"));
+          }
+          if(requsetType == 'isResourceAvailable'){
+            if(xmlHttp.status == 200){
+              alert(3);
+            }
+            if(xmlHttp.status == 404){
+              alert(4);
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body>
+  <div><a href="javascript:doHeaderRequest('allResponsetHeaders','domeXml.xml')">获取修改文件头</a></div>
+  <div><a href="javascript:doHeaderRequest('lastModified','domeXml.xml')">获取文件修改日期</a></div>
+  <div><a href="javascript:doHeaderRequest('isResourceAvailable','domeXml.xml')">获取现存资源</a></div>
+  <div><a href="javascript:doHeaderRequest('isResourceAvailable','domeXml.xml')">获取不存在资源</a></div>
+</body>
+</html>

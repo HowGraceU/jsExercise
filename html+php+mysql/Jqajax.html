@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>html+php+mysql</title>
+</head>
+<body>
+  <div method="post" action="php.php">
+    <div>名字<input type="text" name="name"></div>
+    <div>密码<input type="password" name="password"></div>
+    <div><input type="button" value="提交"></div>
+  </div>
+<script src="jquery.min.js"></script>
+<script type="text/javascript">
+$('input[type=button]').click(function(){
+  var name=$('input[name=name]').val();
+  var password=$('input[name=password]').val();
+  $.ajax({
+    url:'php.php',
+    type:'post',
+    data:{name:name,password:password},
+    success:function (msg) {
+      alert(msg);
+    }
+  });
+});
+</script>
+</body>
+</html>

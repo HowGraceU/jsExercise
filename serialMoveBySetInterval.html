@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<style type="text/css">
+	li{
+		list-style: none;
+	}
+	#productsCon{
+		margin:19px auto 0;
+		width:540px;
+		overflow:hidden;
+	}
+	#productsCon ul{
+		width:1000%;
+		padding-left: 7px;
+	}
+	#productsCon li{
+		float:left;
+		width:127px;
+		line-height:26px;
+		text-align:center;
+		margin-right:21px;
+	}
+	#productsCon li div{
+		background: red;
+		width: 127px;
+		height: 127px;
+	}
+	#productsCon li img{
+		border:#d3d3d3 1px solid;
+	}
+	</style>
+	<title>连续滚动by setTimeout</title>
+</head>
+<body>
+<div id="productsCon">
+	<ul class="clearfix">
+    	<li><a href=""><div></div><span>产品电器F0000001号</span></a></li>
+        <li><a href=""><div></div><span>产品电器F0000002号</span></a></li>
+        <li><a href=""><div></div><span>产品电器F0000003号</span></a></li>
+        <li><a href=""><div></div><span>产品电器F0000004号</span></a></li>
+        <li><a href=""><div></div><span>产品电器F0000005号</span></a></li>
+        <li><a href=""><div></div><span>产品电器F0000006号</span></a></li>
+    </ul>
+</div>
+<script type="text/javascript">
+	var myDiv=document.getElementById("productsCon");
+	myUl=myDiv.getElementsByTagName("ul")[0];
+	mylis=myUl.getElementsByTagName('li');
+	var timer=null;
+	var start=0;
+	function move() {
+		start-=3;
+		if(start>-148){
+			mylis[0].style.marginLeft=start+"px";
+		}if(start<-148){
+			mylis[0].style.marginLeft=-148+"px";
+			myUl.appendChild(mylis[0]);
+			mylis[mylis.length-1].style.marginLeft=0;
+			start=0;
+		}
+	}
+	myDiv.onmouseenter=function(){
+		clearInterval(timer);
+	}
+	myDiv.onmouseleave=function(){
+		timer=setInterval(function(){
+			move();
+		},20)
+	}
+	timer=setInterval(function(){
+		move();
+	},20)
+</script>
+</body>
+</html>

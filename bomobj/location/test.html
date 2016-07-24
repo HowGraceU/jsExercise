@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>location属性和方法</title>
+</head>
+<body>
+<a href="###">锚点##</a>
+<a href="javascript:void(0);" onclick="getHash()">得到锚点</a>
+<a href="javascript:void(0);" onclick="newDoc()">go to w3school</a>
+<a href="javascript:void(0);" onclick="newDoc2()">load w3school</a>
+<script type="text/javascript">
+window.onload = function(){
+	var loca=location;
+	window.getHash=function (){
+		document.documentElement.innerHTML+="<p>location的hash属性："+loca.hash+"</p>";
+	};
+	document.documentElement.innerHTML+="<p>location的host属性："+loca.host+"</p>";
+	document.documentElement.innerHTML+="<p>location的hostname属性："+loca.hostname+"</p>";
+	document.documentElement.innerHTML+="<p>location的href属性："+loca.href+"</p>";
+	document.documentElement.innerHTML+="<p>location的pathname属性："+loca.pathname+"</p>";
+	document.documentElement.innerHTML+="<p>location的port属性："+loca.port+"</p>";
+	document.documentElement.innerHTML+="<p>location的protocol属性："+loca.protocol+"</p>";
+	window.newDoc = function(){
+		loca.assign("http://www.w3school.com.cn");
+	}
+	window.newDoc2 = function(){
+		loca.replace("http://www.w3school.com.cn");
+	}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<style type="text/css">
+		#text1{
+			width: 350px;
+			height: 100px;
+		}
+		#button1{
+			margin-top: 30px;
+		}
+		#win2{
+			width: 500px;
+			height: 300px;
+		}
+	</style>
+	<title>主界面</title>
+</head>
+<body>
+<h3>页面1</h3>
+<div>
+	<textarea id="text1"></textarea>
+</div>
+<div>
+	<input id="button1" type="button" name="button1" value="添加内容到页面2">
+</div>
+<iframe id="win2" src="dome2.html"></iframe>
+<script type="text/javascript">
+	var text1=document.getElementById("text1");
+	var button1=document.getElementById("button1");
+	var win2=document.getElementById("win2").contentWindow;
+	onload=function () {
+		var text2=win2.document.getElementById("text2");
+		var button2=win2.document.getElementById("button2");
+		button1.onclick=function(){
+			var p=document.createElement("p");
+			p.innerHTML="<i>"+text1.value+"</i>";
+			console.log(p+" "+text1.value);
+			win2.document.getElementsByTagName('body')[0].appendChild(p);
+		}
+		button2.onclick=function(){
+			text1.value=text2.value;
+		}
+	}
+</script>
+</body>
+</html>

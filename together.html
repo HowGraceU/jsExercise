@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>togather</title>
+</head>
+<body style="background: #333;">
+	<div id="G20Time" style="width: 550px; margin: 0 auto; font-size: 30px; color:pink; font-family: '微软雅黑'"></div>
+	<script>
+		function countDown() {
+			var nowT = new Date().getTime();
+			var togetherT = new Date();
+			togetherT.setFullYear(2015, 5, 23);
+			togetherT.setHours(0, 0, 0, 0);
+			togetherT = togetherT.getTime();
+			// if (nowT >= G20T) {
+			// 	alert("g20已经开始");togetherT
+			// }else{
+				var day=Math.floor(((nowT-togetherT)/(1000*60*60*24)));
+				var hours=Math.floor(((nowT-togetherT)%(1000*60*60*24)/(1000*60*60)));
+				var minute=Math.floor(((nowT-togetherT)%(1000*60*60*24)%(1000*60*60)/(1000*60)));
+				var second=Math.floor(((nowT-togetherT)%(1000*60*60*24)%(1000*60*60)%(1000*60)/1000));
+				minute=minute<10?"0"+minute:minute;
+				second=second<10?"0"+second:second;
+				document.getElementById("G20Time").innerHTML="togetherTime: "+day+"天 "+hours+"小时 "+minute+"分 "+second+"秒 ";//这一行双引号里的字可以改
+
+			//}
+		}
+    countDown();
+    setInterval("countDown()",1000);
+	</script>
+</body>
+</html>

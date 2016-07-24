@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>html+php+mysql</title>
+</head>
+<body>
+  <div method="post" action="php.php">
+    <div>名字<input id="name" type="text" name="name"></div>
+    <div>密码<input id="password" type="password" name="password"></div>
+    <div><input id="submit" type="button" value="提交"></div>
+  </div>
+<script type="text/javascript">
+function ajax(url,mySend) {
+  var phpHttp=new XMLHttpRequest() || new ActiveXObject('Microsoft.XMLHTTP');
+  phpHttp.open('post',url,true);
+  phpHttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+  if(phpHttp.readyState==1 && typeof mySend=='function'){
+    alert(1)
+    mySend(phpHttp);
+  }
+
+}
+var submit=document.getElementById('submit');
+submit.onclick=function(){
+  var name=document.getElementById('name').value;
+  var password=document.getElementById('password').value;
+  ajax('php.php',function(phpHttp){
+    alert('name='+name+'&password='+password);
+    phpHttp.send('name='+name+'&password='+password);
+  });
+}
+</script>
+</body>
+</html>

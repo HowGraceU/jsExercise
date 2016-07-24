@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<style type="text/css">
+		#text1{
+			width: 350px;
+			height: 100px;
+		}
+		#button1{
+			margin-top: 30px;
+		}
+		#win2{
+			width: 500px;
+			height: 300px;
+		}
+	</style>
+	<title>主界面</title>
+</head>
+<body>
+<h3>页面1</h3>
+<div>
+	<textarea id="text1"></textarea>
+</div>
+<div>
+	<input id="button1" type="button" name="button1" value="添加内容到页面2">
+	<input id="button2" type="button" name="button2" value="打开页面2">
+	<input id="button3" type="button" name="button3" value="关闭页面2">
+</div>
+<script type="text/javascript">
+	var text1=document.getElementById("text1");
+	var button2=document.getElementById("button2");
+	var button3=document.getElementById("button3");
+	var win2;
+	button1.onclick=function(){
+		var p=document.createElement("p");
+		p.innerHTML="<i>"+text1.value+"</i>";
+		console.log(p+" "+text1.value);
+		win2.document.getElementsByTagName('body')[0].appendChild(p);
+	}
+	button2.onclick=function(){
+		win2=open("dome2.html","win2","width=400,height=300,top=100,left=400");
+	}
+	button3.onclick=function(){
+		if(win2){
+			if(win2.closed){
+				alert("窗口已经关闭");
+				win2=null;
+			}else{
+				win2.close();
+				win2=null;
+			}
+		}else{
+			alert("窗口未打开");
+		}
+	}
+</script>
+</body>
+</html>

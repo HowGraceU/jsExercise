@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>连续移动（jQuery）</title>
+	<style type="text/css">
+		li{
+			list-style: none;
+		}
+		#serial{
+			margin: 0 auto;
+			padding: 0 20px;
+			width: 500px;
+			overflow: hidden;
+		}
+		#serial ul{
+			padding: 0;
+			float: left;
+			width: 1200%;
+		}
+		#serial li{
+			float: left;
+			background: red;
+			margin-right: 50px;
+			width: 100px;
+			height: 100px;
+		}
+	</style>
+</head>
+<body>
+	<div id="serial">
+		<ul>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	</div>
+	<script type="text/javascript" src="jquery.min.js"></script>
+	<script type="text/javascript">
+		var wid=$("#serial li:first").outerWidth(true);
+		var time=(wid-parseInt($("#serial li:first").css("margin-left")))/wid*500;
+		function move(){
+			var time=(wid+parseInt($("#serial li:first").css("margin-left")))/wid*500;
+			$("#serial li:first").stop().animate({
+				marginLeft:-wid+"px"
+			},time,"linear",function(){
+				$(this).appendTo($(this).parent()).css("margin-left",0);
+				move();
+			})
+		}
+		move();
+		$("#serial ul").mouseenter(function () {
+			$("#serial li:first").stop();
+		})
+		$("#serial ul").mouseleave(function () {
+			move();
+		})
+	</script>
+</body>
+</html>

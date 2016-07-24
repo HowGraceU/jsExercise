@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<style type="text/css">
+		body,div,ul,li,span,table,tr,td,tbody{
+			margin: 0;
+			padding: 0;
+		}
+		li{
+			list-style: none;
+		}
+		.clearfix{
+			*zoom:.;
+		}
+		.clearfix:after{
+			content: ".";
+			clear: both;
+			display: block;
+			overflow: hidden;
+			height: 0;
+			font-size: 0;
+		}
+		body{
+			background: #333;
+		}
+		.main{
+			margin: 0 auto;
+			width: 1200px;
+			padding-bottom: 100px;
+		}
+		#boxLeft{
+			position: relative;
+			float: left;
+			margin-left: 100px;
+			margin-right: 30px;
+		}
+		.frame{
+			margin-top: 40px;
+			width: 70px;
+			color: #fff;
+		}
+		#setWidth,#setHeight{
+			margin: 10px 10px 0 0;
+			width: 20px;
+		}
+		#setBtn{
+			margin-top: 10px;
+			width: 100%;
+		}
+		#now{
+			position: absolute;
+			font-size: 26px;
+			height: 30px;
+			line-height: 30px;
+			color: #fff;
+			left: 0;
+		}
+		.black,.white{
+			display: block;
+			margin-left: 40px;
+			width: 28px;
+			height: 28px;
+			border-radius: 50%;
+		}
+		.black{
+		background: -webkit-linear-gradient(135deg, #79716e 20%, #4a4947 35%, #17181a 80%); /* Safari 5.1 - 6.0 */
+		background: -o-linear-gradient(135deg, #79716e 20%, #4a4947 35%, #17181a 80%); /* Opera 11.6 - 12.0 */
+		background: -moz-linear-gradient(135deg, #79716e 20%, #4a4947 35%, #17181a 80%); /* Firefox 3.6 - 15 */
+		background: linear-gradient(135deg, #79716e 20%, #4a4947 35%, #17181a 80%); /* 标准的语法 */
+		border: #17181a 1px solid;
+		}
+		.white{
+			background: -webkit-linear-gradient(135deg, #fff8f0 20%, #cecdcb 65%, #bab7b0 80%);
+			background: -o-linear-gradient(135deg, #fff8f0 20%, #cecdcb 65%, #bab7b0 80%);
+			background: -moz-linear-gradient(135deg, #fff8f0 20%, #cecdcb 65%, #bab7b0 80%);
+			background: linear-gradient(135deg, #fff8f0 20%, #cecdcb 65%, #bab7b0 80%);
+			border: #fff8f0 1px solid;
+		}
+		#boxRight{
+			float: left;
+			margin-top: 20px;
+			padding: 3px;
+			border: #ccc 1px solid;
+		}
+		#boxRight table{
+			position: relative;
+			border-top: #fff 1px solid;
+			border-left: #fff 1px solid;
+		}
+		#boxRight table span{
+			position: absolute;
+			margin: 0;
+		}
+		#boxRight td{
+			border-bottom: #fff 1px solid;
+			border-right: #fff 1px solid;
+			width: 39px;
+			height: 39.50px;
+		}
+	</style>
+	<title>五子棋</title>
+</head>
+<body>
+<div class="main clearfix">
+	<div id="boxLeft">
+		<div class="frame">
+			<span class="black"></span>
+		</div>
+		<div class="frame">
+			<span class="white"></span>
+		</div>
+		<div class="frame">
+			<input id="again" type="button" value="重新开始">
+		</div>
+		<div class="frame">
+			<input id="setWidth" type="text" name="" value="20">宽
+			<input id="setHeight" type="text" name="" value="20">高
+			<input id="setBtn" type="button" name="" value="布局">
+		</div>
+		<span id="now" style="top: 38px;">=></span>
+	</div>
+	<div id="boxRight">
+		<table cellspacing="0">
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+	var chessBoard=document.getElementById("boxRight").getElementsByTagName("table")[0];
+	var setCB=document.getElementById("setBtn");
+	var again=document.getElementById("again");
+	var now=document.getElementById("now");
+	var time;
+	var isDowm=[];
+	onload=function (){//自动加载20x20的棋盘
+		chessBoard.innerHTML="";
+		time=1;
+		var farg=document.createDocumentFragment();
+		for (var i = 20; i > 0; i--) {
+			var myTr=document.createElement("tr");
+			for (var j = 20; j > 0; j--) {
+				var myTd=document.createElement("td");
+				myTr.appendChild(myTd);
+			}
+			farg.appendChild(myTr);
+		}
+		chessBoard.appendChild(farg);
+		for (var i = 0; i < 21; i++) {
+			isDowm[i]=[];
+			for (var j = 0; j < 21; j++) {
+				isDowm[i][j]=null;
+			}
+		}
+	}
+	again.onclick=onload;
+	setCB.onclick=function () {//布置棋盘
+		var setWidth=document.getElementById("setWidth").value;
+		var setHeight=document.getElementById("setHeight").value;
+		if(setWidth=="" || setHeight==""){//在宽高处输入值
+			alert("请输入棋盘规模");
+		}else{//创建给定宽高的棋盘
+			var farg=document.createDocumentFragment();
+			chessBoard.innerHTML="";//清除table里的所有东西
+			for (var i = 0; i < setHeight ; i++) {
+				var myTr=document.createElement("tr");
+				for (var j = 0; j < setWidth; j++) {
+					var myTd=document.createElement("td");
+					myTr.appendChild(myTd);
+				}
+				farg.appendChild(myTr);
+			}
+			for (var i = 0; i < setHeight; i++) {
+				isDowm[i]=[];
+				for (var j = 0; j < setWidth; j++) {
+					isDowm[i][j]=null;
+				}
+			}
+			chessBoard.appendChild(farg);
+		}
+	}
+	chessBoard.onclick=function(e){
+		var event=window.event || e;
+		var spanX=event.clientX-this.offsetLeft+document.body.scrollLeft+document.documentElement.scrollLeft;
+		var spanY=event.clientY-this.offsetTop+document.body.scrollTop+document.documentElement.scrollTop;
+		var mySpan=document.createElement("span");
+		var X=Math.round(spanX/40);
+		var Y=Math.round(spanY/40);
+		mySpan.style.left=X*40-15+"px";
+		mySpan.style.top=Y*40-15+"px";
+		if(isDowm[Y][X]!=null){
+			alert("此处有"+isDowm[Y][X]);
+		}else if(time%2){
+			mySpan.className="black";
+			time++;
+			isDowm[Y][X]="black";
+			now.style.top=38+"px";
+		}else{
+			mySpan.className="white";
+			time++;
+			isDowm[Y][X]="white";
+			now.style.top=108+"px";
+		}
+		this.appendChild(mySpan);
+		// console.log(isDowm);
+	}
+</script>
+</body>
+</html>

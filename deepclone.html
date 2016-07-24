@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <script type="text/javascript">
+//     var m=function(){alert(1);};
+// var n=m;
+// n=function(){alert(2);};
+// console.log(m);//1
+// console.log(n);//2
+
+// function isClass(o){
+//     if(o===null) return "Null";
+//     if(o===undefined) return "Undefined";
+//     return Object.prototype.toString.call(o);
+//     return Object.prototype.toString.call(o).slice(8,-1);
+// }
+// console.log(isClass({}));
+
+   // var t="{'firstName': 'cyra', 'lastName': 'richardson', 'address': { 'streetAddress': '1 Microsoft way', 'city': 'Redmond', 'state': 'WA', 'postalCode': 98052 },'phoneNumbers': [ '425-777-7777','206-777-7777' ] }";  
+   //  var jsonobj=eval('('+t+')');  
+   //  alert(jsonobj.firstName);  
+   //  alert(jsonobj.lastName);  
+
+//    var oPerson={
+//     oName:"rookiebob",
+//     oAge:"18",
+//     oAddress:{
+//         province:"beijing"
+//     },    
+//     ofavorite:[
+//         "swimming",
+//         {reading:"history book"}
+//     ],
+//     skill:function(){
+//         console.log("bob is coding");
+//     }
+// };
+// function clone(obj){
+//     var result={};
+//     for(key in obj){
+//         result[key]=obj[key];
+//     }
+//     return result;
+// }
+// var oNew=clone(oPerson);
+// console.log(oPerson.oAge);//beijing
+// oNew.oAge="shanghai";
+// console.log(oNew.oAge,oPerson.oAge);//shanghai
+
+// var jqx={};
+// jqx.province=oPerson.oAddress.province;
+// jqx.oProvince='zhejiang';
+// console.log(jqx.oProvince,oPerson.oAddress.province);//zhejiang shanghai
+
+// var jqx=oPerson;
+// jqx.oAddress.province='zhejiang';
+// console.log(jqx.oAddress.province,oPerson.oAddress.province);//zhejiang shanghai
+
+function deepClone(obj){
+    var result,oClass=isClass(obj);
+        //确定result的类型
+    if(oClass==="Object"){
+        result={};
+    }else if(oClass==="Array"){
+        result=[];
+    }else{
+        return obj;
+    }
+    for(key in obj){
+        var copy=obj[key];
+        if(isClass(copy)=="Object"){
+            result[key]=arguments.callee(copy);//递归调用
+        }else if(isClass(copy)=="Array"){
+            result[key]=arguments.callee(copy);
+        }else{
+            result[key]=obj[key];
+        }
+    }
+    return result;
+}
+//返回传递给他的任意对象的类
+function isClass(o){
+    if(o===null) return "Null";
+    if(o===undefined) return "Undefined";
+    return Object.prototype.toString.call(o).slice(8,-1);
+}
+console.log(isClass({}));
+console.log(isClass([]));
+var oPerson={
+    oName:"rookiebob",
+    oAge:"18",
+    oAddress:{
+        province:"beijing"
+    },    
+    ofavorite:[
+        "swimming",
+        {reading:"history book"}
+    ],
+    skill:function(){
+        console.log("bob is coding");
+    }
+};
+//深度克隆一个对象
+var oNew=deepClone(oPerson);
+ 
+oNew.ofavorite[1].reading="picture";
+console.log(oNew.ofavorite[1].reading);//picture
+console.log(oPerson.ofavorite[1].reading);//history book
+ 
+oNew.oAddress.province="shanghai";
+console.log(oPerson.oAddress.province);//beijing
+console.log(oNew.oAddress.province);//shanghai
+
+oNew=deepClone([1,2,3]);
+console.log(oNew);
+
+// function ArgTest(a, b, c){
+//    var i, s = "The ArgTest function expected ";
+//    var numargs = arguments.length;     // 获取被传递参数的数值。
+//    var expargs = ArgTest.length;       // 获取期望参数的数值。
+//    console.log(numargs,expargs);
+//    if (expargs < 2)
+//         s += expargs + " argument. ";
+//    else
+//         s += expargs + " arguments. ";
+//    if (numargs < 2)
+//         s += numargs + " was passed.";
+//    else
+//         s += numargs + " were passed.";
+//      s += " "
+//    for (i =0 ; i < numargs; i++){      // 获取参数内容。
+//      s += "    Arg " + i + " = " + arguments[i] + " ";
+//      }
+//    return(s);                          // 返回参数列表。
+// }
+// ArgTest(1, 1);
+
+  </script>
+</body>
+</html>

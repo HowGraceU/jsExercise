@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ajax请求</title>
+  <script type="text/javascript">
+    window.onload=function(){
+      function ajax(url,callback){
+        var xmlHttp=new XMLHttpRequest || new ActiveXObject('Microsoft.XMLHTTP');
+        xmlHttp.open('POSt',url,true);
+        xmlHttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+        xmlHttp.send();
+        xmlHttp.onreadystatechange=function(){
+          if(xmlHttp.readyState==4 && xmlHttp.status==200){
+            if(typeof callback=='function'){
+              callback(xmlHttp);
+            }
+          }
+        }
+      }
+      ajax('books.xml',function (xmlHttp) {
+        var xmlObj=xmlHttp.responseXML;
+        var bookstroe=xmlObj.getElementsByTagName('bookstroe')[0];
+        var selBook=document.getElementById('selBook');
+        var books=bookstroe.getElementsByTagName('book');
+        var i = 0;
+        if(i==0){
+            var name=books[0].getElementsByTagName('name')[0].innerHTML;
+            var author=books[0].getElementsByTagName('author')[0].innerHTML;
+            var timeboth=books[0].getElementsByTagName('timeboth')[0].innerHTML;
+            var price=books[0].getElementsByTagName('price')[0].innerHTML;
+            var content=document.getElementById('content');
+            content.innerHTML=name+'<br/>'+author+'<br/>'+timeboth+'<br/>'+price;
+          }
+        for (i ; i < books.length; i++) {
+          var option=document.createElement('option');
+          option.innerHTML=books[i].getElementsByTagName('name')[0].innerHTML;
+          option.value=books[i].getElementsByTagName('name')[0].innerHTML;
+          selBook.appendChild(option);
+        }
+      });
+      selBook.onchange=function(){
+        var val=this.value;
+        ajax('books.xml',function(xmlHttp){
+          var xmlObj=xmlHttp.responseXML;
+          var bookstroe=xmlObj.getElementsByTagName('bookstroe')[0];
+          var books=bookstroe.getElementsByTagName('book');
+          for (var i = 0; i < books.length; i++) {
+            if(books[i].getElementsByTagName('name')[0].innerHTML==val){
+              var name=books[i].getElementsByTagName('name')[0].innerHTML;
+              var author=books[i].getElementsByTagName('author')[0].innerHTML;
+              var timeboth=books[i].getElementsByTagName('timeboth')[0].innerHTML;
+              var price=books[i].getElementsByTagName('price')[0].innerHTML;
+              var content=document.getElementById('content');
+              content.innerHTML=name+'<br/>'+author+'<br/>'+timeboth+'<br/>'+price;
+              return;
+            }
+          }
+        });
+      }
+    }
+  </script>
+</head>
+<body>
+  <select id="selBook"></select>
+  <div id="content"></div>
+</body>
+</html>

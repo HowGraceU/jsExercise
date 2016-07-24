@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<style type="text/css">
+		html,body,ul,li,div,a{
+			margin: 0;
+			padding: 0;
+		}
+		li{
+			list-style: none;
+		}
+		a{
+			text-decoration: none;
+		}
+		.clearfix{
+			*zoom:1;
+		}
+		.clearfix:after{
+			font-size: 0;
+			height: 0;
+			visibility: visible;
+			display: block;
+			clear: both;
+			content: ".";
+		}
+		#change{
+			position: relative;
+			margin: 100px auto 100px;
+			width: 900px;
+			height: 460px;
+			overflow: hidden;
+		}
+		.img{
+			width: 1200%;
+			height: 460px;
+		}
+		.img li{
+			position: absolute;
+			width: 900px;
+			height: 460px;
+			top: 0;
+			left: 0;
+		}
+		.a{
+			background: url(images/bg1.jpg);
+		}
+		.b{
+			display: none;
+			background: url(images/bg2.jpg);
+		}
+		.c{
+			display: none;
+			background: url(images/bg3.jpg);
+		}
+		.nav{
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			background: rgba(234,234,234,0.6);
+			width: 900px;
+			height: 40px;
+			z-index: 4;
+			line-height: 40px;
+			text-align: center;
+		}
+		.nav li{
+			display: inline-block;
+			background: #3f3f3f;
+			width: 10px;
+			height: 10px;
+			cursor: pointer;
+		}
+		.nav .current{
+			background: #006dc7;
+		}
+		.left,.right{
+			background: rgba(0,0,0,0.4);
+			position: absolute;
+			padding: 0 32px;
+			top: 185px;
+			font-size: 100px;
+			z-index: 5;
+			color: #fff;
+			cursor: pointer;
+		}
+		.left{
+			left: 0;
+		}
+		.right{
+			right:0;
+		}
+	</style>
+	<title>图片左右切换（用css3 trasition效果做）</title>
+</head>
+<body>
+	<div id="change">
+		<ul class="img">
+			<li class="a"></li>
+			<li class="b"></li>
+			<li class="c"></li>
+		</ul>
+		<ul class="nav">
+			<li class="current"></li>
+			<li></li>
+			<li></li>
+		</ul>
+		<a class="left" style="display:none;"><</a>
+		<a class="right" style="display:none;">></a>
+	</div>
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript">
+	var old=0;
+	var now=0;
+	var timer=null;
+	function move() {
+		if(now==old){
+			return;
+		}
+		$(".img li").stop(false,true).eq(now).fadeIn();
+		$(".img li").eq(old).fadeOut();
+		$(".nav li").eq(old).removeClass("current");
+		$(".nav li").eq(now).addClass("current");
+		old=now;
+	}
+	$(".nav li").mouseenter(function () {
+		now=$(this).index();
+		move();
+	});
+	$("#change").mouseenter(function () {
+		$("a").show();
+		clearInterval(timer);
+	});
+	$("#change").mouseleave(function () {
+		$("a").hide();
+		timer=setInterval(function(){
+			$("a").eq(1).click();
+		},1000);
+	});
+	$("a").eq(0).click(function () {
+		now=now>0?now-1:$(".nav li").length-1;
+		move();
+	});
+	$("a").eq(1).click(function () {
+		now=now<$(".nav li").length-1?now+1:0;
+		move();
+	});
+	timer=setInterval(function(){
+		$("a").eq(1).click();
+	},1000);
+</script>
+</body>
+</html>

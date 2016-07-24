@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<style type="text/css">
+		body{
+			height: 3000px;
+		}
+		.a,.b,.c{
+			width: 100px;
+			height: 200px;
+			position: absolute;
+			cursor: pointer;
+			z-index: 5;
+		}
+		.a{
+			background: rgba(255,0,0,0.5);
+		}
+		.a:hover{
+			background: rgba(255,0,0,0.8);
+			z-index: 6;
+		}
+		.b{
+			background: rgba(0,255,0,0.5);
+		}
+		.b:hover{
+			background: rgba(0,255,0,0.8);
+			z-index: 6;
+		}
+		.c{
+			background: rgba(0,0,255,0.5);
+		}
+		.c:hover{
+			background: rgba(0,0,255,0.8);
+			z-index: 6;
+		}
+	</style>
+	<title>移动层</title>
+</head>
+<body>
+	<div class="a" style="top: 110px; left: 70px;"></div>
+	<div class="b" style="top: 160px; left: 50px;"></div>
+	<div class="c" style="top: 140px; left: 30px;"></div>
+<script type="text/javascript">
+	var myDiv=document.getElementsByTagName("div");
+	var oldDivX;
+	var oldDivY;
+	var X,Y;
+	var obj=null;
+	// var old=myDiv[0];//记录上一次位置
+	for (var i = myDiv.length - 1; i >= 0; i--) {
+		myDiv[i].onmousedown=function (e){
+			var event=window.event || e;
+			// eventTag=event.srcElement || event.target;
+			X=event.clientX+document.body.scrollLeft+document.documentElement.scrollLeft;//得到鼠标按下时的X，Y
+			Y=event.clientY+document.body.scrollTop+document.documentElement.scrollTop;
+			oldDivX=parseInt(this.style.left);
+			oldDivY=parseInt(this.style.top);
+			// old.style.zIndex=5;
+			obj=this;
+			// obj.style.zIndex=6;
+		}
+		document.documentElement.onmousemove=function(e){
+			if(obj){
+				var event=window.event || e;
+				var moveX=(event.clientX-X+document.body.scrollLeft+document.documentElement.scrollLeft);
+				var moveY=(event.clientY-Y+document.body.scrollTop+document.documentElement.scrollTop);
+				obj.style.left=oldDivX+moveX+"px";
+				obj.style.top=oldDivY+moveY+"px";
+				// console.log(moveX+" "+moveY);
+			}
+		}
+		document.documentElement.onmouseup=function(){
+			// if(obj){
+			// 	old=obj;
+			// }
+			obj=null;
+		}
+	}
+</script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bookstroe>
+  <book>
+    <name>西游记</name>
+    <author>吴承恩</author>
+    <timeboth>627year</timeboth>
+    <price>￥29.98</price>
+  </book>
+  <book>
+    <name>水浒传</name>
+    <author>吴承恩</author>
+    <timeboth>1119year</timeboth>
+    <price>￥19.98</price>
+  </book>
+  <book>
+    <name>三国演义</name>
+    <author>罗贯中</author>
+    <timeboth>198year</timeboth>
+    <price>￥9.98</price>
+  </book>
+  <book>
+    <name>红楼梦</name>
+    <author>曹雪芹</author>
+    <timeboth>1791year</timeboth>
+    <price>￥39.98</price>
+  </book>
+</bookstroe>

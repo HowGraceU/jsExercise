@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ajax请求</title>
+</head>
+<body>
+  <select id="selBook"></select>
+  <div id="content"></div>
+</body>
+<script type="text/javascript">
+  function ajax(callback){
+    var jsonHttp = new XMLHttpRequest() || new ActiveXObject('Microsoft.XMLHTTP');
+    jsonHttp.open('post','books.json',true);
+    jsonHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded; charset=utf-8")
+    jsonHttp.send();
+    jsonHttp.onreadystatechange=function () {
+      if(jsonHttp.readyState == 4 && jsonHttp.status == 200){
+        if(typeof callback == 'function'){
+          var json = JSON.parse(jsonHttp.responseText);
+          callback(json);
+        }
+      }
+    }
+  }
+  var selBook=document.getElementById('selBook');
+  ajax(function(json){
+    var falg=document.createDocumentFragment();
+    for (var i in json.book) {
+      var option=document.createElement('option');
+      option.innerHTML=json.book[i].name;
+      falg.appendChild(option);
+    }
+    selBook.appendChild(falg);
+    falg.innerHTML="";
+    if(selBook.value == json.book[0].name){
+      for (var j in json.book[0]){
+        var p=document.createElement('p');
+        p.innerHTML=json.book[0][j];
+        falg.appendChild(p);
+      }
+      content.appendChild(falg);
+    }
+  });
+  selBook.onchange = function(){
+    ajax(function(json){
+      var selBook=document.getElementById('selBook');
+      var content=document.getElementById('content');
+      for(var i in json.book){
+        if(selBook.value == json.book[i].name){
+          var falg=document.createDocumentFragment();
+          for(var j in json.book[i]){
+            var p=document.createElement('p');
+            p.innerHTML=json.book[i][j];
+            falg.appendChild(p);
+          }
+          content.innerHTML="";
+          content.appendChild(falg);
+        }
+      }
+    });
+  }
+</script>
+</html>

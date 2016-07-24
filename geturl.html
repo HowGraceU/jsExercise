@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <script type="text/javascript">
+    var url='https://www.baidu.com/s?wd=abc&rsv_spt=1&rsv_iqid=0xc3b20a24000e020e&issp=1&f=8&rsv_bp=0&rsv_idx=2&ie=utf-8&tn=baiduhome_pg&rsv_enter=1&rsv_sug3=4&rsv_sug1=4&rsv_sug7=101&rsv_sug2=0&inputT=1060&rsv_sug4=2616';
+    //function1
+    function getUrl(url) {
+      var index;
+      var date={};
+      index=url.indexOf('?');
+      date.url=url.substring(0,index);
+      for(var i=0; i<url.length; i++){
+        if(index<0){
+          return date;
+        }else{
+          date[url.substring(index+1,url.indexOf('=',index+1))]=url.substring(url.indexOf('=',index+1),url.indexOf('&',index+1));
+          index=url.indexOf('&',index+1);
+        }
+      }
+    }
+function deserializer2(url) {
+  var data = {},
+  subUrl = url.slice(url.indexOf("?")+1),
+  dengyu = subUrl.lastIndexOf("="),
+  he = subUrl.lastIndexOf("&");
+  while(he>0){
+    data[subUrl.slice(he+1,dengyu)] = subUrl.slice(dengyu+1,subUrl.length);
+    subUrl = subUrl.slice(0,he);
+    //reset
+    dengyu = subUrl.lastIndexOf("=");
+    he = subUrl.lastIndexOf("&");
+  }
+  //subUrl = "wd=abc"
+  data[subUrl.slice(0,dengyu)] = subUrl.slice(dengyu+1,subUrl.length);
+  return data;
+}
+// console.log(deserializer2(G_URL));
+
+
+//function1
+function deserializer1(url) {
+  var data = {},
+  subUrl = url.slice(url.indexOf("?")+1),
+  array = subUrl.split("&"),
+  length = array.length,
+  subArr = [];
+  for(var i=0; i<length; i++){
+    subArr = array[i].split("=");
+    data[subArr[0]] = subArr[1];
+  }
+  return data;
+}
+function parseQueryString( url ){
+    var reg_url =/^[^\?]+\?([\w\W]+)$/,
+        reg_para=/([^&=]+)=([\w\W]*?)(&|$)/g, //g is very important
+        arr_url = reg_url.exec( url ),
+        ret        = {};
+    if( arr_url && arr_url[1] ){
+        var str_para = arr_url[1],result;
+        while((result = reg_para.exec(str_para)) != null){
+            ret[result[1]] = result[2];
+        }
+    }
+    return ret;
+}
+
+    function getTime(fun,url){
+      var lastTime=new Date();
+      for (var i = 0; i < 100000; i++) {
+        fun(url);
+      }
+      var nowTime=new Date();
+      return (nowTime-lastTime);
+    }
+    console.log(getTime(getUrl,url));
+    console.log(getTime(deserializer2,url));
+    console.log(getTime(deserializer1,url));
+    console.log(getTime(parseQueryString,url));
+    // getTime(getUrl,url);
+    // getTime(deserializer2,url);
+    // getTime(deserializer1,url);
+  </script>
+</body>
+</html>

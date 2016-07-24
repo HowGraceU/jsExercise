@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ajax请求</title>
+  <script type="text/javascript">
+    window.onload=function(){
+      var xmlHttp=window.XMLHttpRequest?new XMLHttpRequest:new ActiveXObject("Microsoft.XMLHTTP");
+      xmlHttp.open('POST','books.xml',true);
+      xmlHttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+      xmlHttp.send();
+      xmlHttp.onreadystatechange=function(){
+        if(xmlHttp.readyState==4 && xmlHttp.status==200){
+          var xmlObj=xmlHttp.responseXML;
+          alert(xmlObj);
+        }
+      }
+    }
+  </script>
+</head>
+<body>
+  <select id="selBook">
+    <option></option>
+  </select>
+</body>
+</html>

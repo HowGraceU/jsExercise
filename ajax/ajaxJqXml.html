@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ajax请求Jq</title>
+  <script src="jquery.min.js"></script>
+  <script type="text/javascript">
+    window.onload=function(){
+      $.ajax({
+        url:'books.xml',
+        dataType:'xml',
+        success:function (xml) {
+          $(xml).find('name').each(function (i,node) {
+            var option=$('<option/>').html($(this).html()).val($(this).html());
+            var farg=document.createDocumentFragment();
+            $(farg).append(option);
+            $('#selBook').append(farg);
+            if(i==0){
+              $(xml).find('book').eq(0).children().each(function(){
+                $(farg).append($(this).html()+"<br/>");
+              })
+              $('#content').html($(farg));
+            }
+          });
+        }
+      });
+      $('#selBook').change(function(){
+        var name=$(this).val();
+        $.ajax({
+          url:'books.xml',
+          dataType:'xml',
+          success:function (xml) {
+            $(xml).find('name').each(function(){
+              if($(this).html() == name){
+                var farg=document.createDocumentFragment();
+                $(this).parent().children().each(function(){
+                  $(farg).append($(this).html()+"<br/>");
+                })
+              $('#content').html($(farg));
+              return ;
+              }
+            })
+          }
+        })
+      });
+    }
+  </script>
+</head>
+<body>
+  <select id="selBook"></select>
+  <div id="content"></div>
+</body>
+</html>

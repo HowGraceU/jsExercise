@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ajax请求Jq</title>
+</head>
+<body>
+  <select id="selBook"></select>
+  <div id="content"></div>
+<script src="jquery.min.js"></script>
+<script type="text/javascript">
+var Gdata;
+  $.ajax({
+    url:'books.json',
+    dataType:'json',
+    success:function (json) {
+      Gdata = json
+      var option="";
+      $.each(json.book,function(k,v){
+        option +='<option id='+k+'>'+v.name+'</option>';
+      });
+      $('#selBook').html(option);
+      myChange(0);
+    }
+  });
+  $('#selBook').change(function(){
+    var k=$('option:selected').attr('id');
+    myChange(k);
+  });
+  function myChange(bookId){
+    var p='';
+    $.each(Gdata.book[bookId],function(k,v){
+      p+='<p>'+v+'</p>';
+    });
+    $('#content').html(p);
+  }
+</script>
+</body>
+</html>

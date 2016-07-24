@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<style type="text/css">
+		html,body,ul,li,div,a{
+			margin: 0;
+			padding: 0;
+		}
+		li{
+			list-style: none;
+		}
+		a{
+			text-decoration: none;
+		}
+				.clearfix{
+			*zoom:1;
+		}
+		.clearfix:after{
+			font-size: 0;
+			height: 0;
+			visibility: visible;
+			display: block;
+			clear: both;
+			content: ".";
+		}
+		#change{
+			position: relative;
+			margin: 100px auto 100px;
+			width: 900px;
+			height: 460px;
+		}
+		.img{
+			position: relative;
+			overflow: hidden;
+			width: 900px;
+			height: 460px;
+		}
+		.img li{
+			position: absolute;
+			width: 900px;
+			height: 460px;
+			transition: left,1s,linear;
+		}
+		.a{
+			background: url(images/bg1.jpg);
+			z-index: 3;
+		}
+		.b{
+			background: url(images/bg2.jpg);
+			z-index: 2;
+		}
+		.c{
+			background: url(images/bg3.jpg);
+			z-index: 1;
+		}
+		.nav{
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			background: rgba(234,234,234,0.6);
+			width: 900px;
+			height: 40px;
+			z-index: 4;
+			line-height: 40px;
+			text-align: center;
+		}
+		.nav li{
+			display: inline-block;
+			background: #3f3f3f;
+			width: 10px;
+			height: 10px;
+			cursor: pointer;
+		}
+		.nav .current{
+			background: #006dc7;
+		}
+		.left,.right{
+			background: rgba(0,0,0,0.4);
+			position: absolute;
+			padding: 0 32px;
+			top: 185px;
+			font-size: 100px;
+			z-index: 5;
+			color: #fff;
+			cursor: pointer;
+		}
+		.left{
+			left: 0;
+		}
+		.right{
+			right:0;
+		}
+	</style>
+	<title>图片左右切换（用css3 trasition效果做）</title>
+</head>
+<body>
+	<div id="change">
+		<ul class="img">
+			<li class="a" style="top: 0; left:0;"></li>
+			<li class="b" style="top: 0; left:900px;""></li>
+			<li class="c" style="top: 0; left:900px;""></li>
+		</ul>
+		<ul class="nav">
+			<li class="current"></li>
+			<li></li>
+			<li></li>
+		</ul>
+		<a class="left" style="display:none;"><</a>
+		<a class="right" style="display:none;">></a>
+	</div>
+<script type="text/javascript">
+	var myDiv=document.getElementById("change");
+	var myUl=myDiv.getElementsByTagName("ul");
+	var myImg=myUl[0].getElementsByTagName("li");
+	var myNav=myUl[1].getElementsByTagName("li");
+	var myA=myDiv.getElementsByTagName("a");
+	var index=0;//上一个图片位置
+	var temp=0;//这个图片位置
+	function updateClass(){
+		myNav[temp].className="";//去除上个按钮的样式
+		myNav[index].className="current";//给现在这个按钮添加样式
+	}
+	function move(){
+		if(temp<index){
+			for (var i = temp; i < index; i++) {//把下标比该图片小的图片全部移到显示区左边
+				myImg[i].style.left="-900px";
+			}
+			myImg[index].style.left="0px";//把点击的图片移入显示区
+		}else{
+			for (var i = temp; i > index; i--) {
+				myImg[i].style.left="900px";
+			}
+			myImg[index].style.left="0px";
+		}
+	}
+	// function leftMove(){
+	// 	for (var i = temp; i < index; i++) {//把下标比该图片小的图片全部移到显示区左边
+	// 			myImg[i].style.left="-900px";
+	// 		}
+	// 		myImg[index].style.left="0px";//把点击的图片移入显示区
+	// 	}
+	// function rightMove(){
+	// 	for (var i = temp; i > index; i--) {
+	// 			myImg[i].style.left="900px";
+	// 		}
+	// 		myImg[index].style.left="0px";
+	// }
+	for (var i = 0; i <= myNav.length - 1; i++) {
+		myNav[i].index=i;
+		myNav[i].onmouseenter=function () {
+			index=this.index;//更新新位置index变量
+			updateClass();
+			move();
+			// if(myImg[index].style.left=="900px"){//点击按钮对应图片在显示区的右边
+			// 	leftMove();
+			// 	console.log(temp+"->"+index);
+			// }else if(myImg[index].style.left=="-900px"){
+			// 	rightMove();
+			// 	console.log(temp+"->"+index);
+			// }
+			temp=index;//更新老位置temp变量
+		}
+	}
+	for (var i = 0; i <= myNav.length - 1; i++) {
+		myNav[i].onmouseleave=function () {
+			temp=index;
+		}
+	}
+	myDiv.onmouseenter=function(){
+		for (var i = myA.length - 1; i >= 0; i--) {
+			myA[i].style.display="block";
+		}
+	}
+	myDiv.onmouseleave=function(){
+		for (var i = myA.length - 1; i >= 0; i--) {
+			myA[i].style.display="none";
+		}
+	}
+	myA[0].onclick=function () {
+		index=index>0?index-1:myImg.length-1;
+		move();
+		console.log(temp+"->"+index);
+		updateClass();
+		temp=index;
+	}
+	myA[1].onclick=function () {
+		index=index<2?index+1:0;
+		move();
+		console.log(temp+"->"+index);
+		updateClass();
+		temp=index;
+	}
+</script>
+</body>
+</html>
